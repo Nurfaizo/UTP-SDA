@@ -1,0 +1,237 @@
+import time
+import os as os
+import random
+import string
+##class buku------------------------------------------- 
+class buku :
+    def __init__(self) :
+        self.judul=["Dua Hati", "Kimi No Nawa", "Komunikasi Inovasi"]
+        self.harga=[60000,150000,260000]
+        self.stok=[10,20,9]
+        self.genre=["Romance","Fantasy","Sci-fi"]
+        self.kode=["8GWX7","HSQOG","9HF43"]
+    def tambah_isi(self,buku,harga,stok,genre,kode) :
+        self.judul.append(buku)
+        self.harga.append(harga)
+        self.stok.append(stok)
+        self.genre.append(genre)
+        self.kode.append(kode)
+##-----------------------------------------------------
+
+## tabel menu -----------------------------------------
+
+def welcome():
+    print(' ')
+    print('=======================')
+    print('== VINTAGE BOOKSTORE ==')
+    print('=======================')
+    time.sleep(1.5)
+    menu()
+    
+def menu():
+    print('\n=====================================================')
+    print('[1]Pilih 1 untuk memasukkan hasil penjualan buku ')
+    print('[2]Pilih 2 untuk melihat manajemen buku')
+    print('[3]Pilih 3 untuk melihat manajemen keuangan buku')
+    print('[0]Pilih 0 untuk keluar dari aplikasi')
+    print('\n=====================================================')
+
+def menu2():
+    print('\n=====================================================')
+    print('[1]Pilih 1 untuk melihat daftar buku ')
+    print('[2]Pilih 2 untuk menambahkan buku')
+    print('[3]Pilih 3 untuk menambah stok buku')
+    print('[4]Pilih 4 untuk menghapus buku')
+    print('[0]Pilih 0 untuk keluar dari manajemen buku')
+    print('\n=====================================================')
+
+def menu3():
+    print('\n=====================================================')
+    print('[1]Pilih 1 untuk melihat data pengeluaran ')
+    print('[2]Pilih 2 untuk melihat data keuangan')
+    print('[3]Pilih 3 untuk melihat data penghasilan')
+    print('[0]Pilih 0 untuk keluar dari manajemen buku')
+    print('\n=====================================================')
+
+##------------------------------------------------------
+
+buku=buku()
+total1=0
+total2=0
+total3=0
+hasil1=0
+hasil=0
+hasil2=0
+
+## manajemen stok buku----------------------------
+def tambah_buku():
+    global total1
+    
+    name=input("Masukkan judul buku     :")
+    genre=input("Masukkan genre buku     :")
+    price=int(input("Masukkan harga buku     :"))
+    stock=int(input("Masukkan stok buku      :"))
+    kode = ''.join(random.choices(string.ascii_uppercase + string.digits, k=5))
+    buku.tambah_isi(name,price,stock,genre,kode)
+    total1=int(price-(0.2 * price))
+    total1*=stock
+
+def tambah_stock():
+    global total2
+    daftar_buku()
+    if len(buku.judul)==0:
+        return
+    else:
+        s=input("Masukkan buku yang ini ditambah stocknya (berdasarkan kode):")
+        for i in range(len(buku.kode)):
+                if buku.kode[i] == s:
+                    g=int(input("Masukkan banyaknya barang yang ingin ditambah :"))
+                    buku.stok[i]+=g
+                    total2=g*buku.harga[i]
+
+
+def daftar_buku():
+    if len(buku.judul)==0:
+         print("Gudangnya kosong masbro isi gih")
+    else:
+        print('{:<10} {:<20} {:<10} {:<10} {:<10}'.format('Kode', 'Judul Buku', 'Harga', 'Stok', 'Genre'))
+        print('-' * 65)
+        for i in range(len(buku.judul)):
+            print('{:<10} {:<20} {:<10} {:<10} {:<10}'.format(buku.kode[i], buku.judul[i], buku.harga[i], buku.stok[i], buku.genre[i]))
+    os.system("pause")
+
+def hapus_daftar():
+    if len(buku.judul)==0:
+        daftar_buku()
+        return
+    else:
+        daftar_buku()
+        a=input("Masukkan list ke berapa yang ingin dihapus")
+        for i in range(len(buku.kode)):
+                if buku.kode[i] == s:
+                    del buku.judul[i]
+                    del buku.harga[i]
+                    del buku.stok[i]
+                    del buku.genre[i]
+                    del buku.kode[i]
+## -------------------------------------------------
+def manaj_buku():
+    y=True
+    while y:
+        os.system("CLS")
+        menu2()
+        x=True
+        pilih=int(input("Pilih menu"))
+        while x :
+            if pilih==1:
+                daftar_buku()
+                x=False
+            elif pilih==2:
+                tambah_buku()
+                x=False
+            elif pilih==3:
+                tambah_stock()
+                x=False
+            elif pilih==4:
+                hapus_daftar()
+                x=False
+            else :
+                x=False
+                y=False
+## bagian keuangan---------------------
+uang=1000000
+def pengeluaran():
+    global hasil, uang, total1, total2
+    hasil= total1+total2
+    print(f"Pengeluaran hari ini adalah : {hasil}")
+    os.system("pause")
+def keuangan():
+    global uang,hasil1,hasil,hasil2
+    hasil1=(uang+hasil2)-hasil
+    print(f'Keuangan saat ini :{hasil1}')
+    os.system("pause")
+
+def penghasilan():
+    global hasil2
+    print(f"Penghasilan harini : {hasil2}")
+    os.system("pause")
+##-------------------------------------
+def keuangan_buku():
+    y=True
+    while y:
+        os.system("CLS")
+        menu3()
+        x=True
+        pilih=int(input("Pilih menu"))
+        while x :
+            if pilih==1:
+                pengeluaran()
+                x=False
+            elif pilih==2:
+                keuangan()
+                x=False
+            elif pilih==3:
+                penghasilan()
+                x=False
+            else :
+                x=False
+                y=False
+
+
+def jual_buku():
+    global hasil2
+    if len(buku.judul)==0:
+        print("Sepertinya gudang anda sedang kosong silahkan tambah barang")
+        os.system("pause")
+    else :
+        x=True
+        daftar_buku()
+        while x:
+            a=input("Pilih Buku :")
+            for i in range(len(buku.kode)):
+                if buku.kode[i] == a:
+                    b=int(input("Berapa barang yang sudah terjual :"))
+                    y=True
+                    while y:
+                        if buku.stok[i]<b:
+                            print("Apakah data tersebut sudah benar?")
+                            os.system("pause")
+                            y=False
+                        else:
+                            eak=buku.stok[i]-b
+                            buku.stok[i]=eak
+                            hasil2=buku.harga[i]*b
+                            print("Daftar buku setelah penjualan")
+                            daftar_buku()
+                            os.system("pause")
+                            x=False
+                            y=False
+            
+
+def main_menu():
+    y=True
+    while y:
+        os.system("CLS")
+        welcome()
+        x=True
+        pilih = input('Masukkan nomor yang anda inginkan : ')
+        while x:
+            if pilih == '1':
+                jual_buku()
+                x=False
+            elif pilih == '2':
+                manaj_buku()
+                x=False
+            elif pilih == '3':
+                keuangan_buku()
+                x=False
+            elif pilih == '0':
+                y=False
+                x=False
+            else:
+                print('\nAngka yang anda masukkan tidak dikenal\nAnda kembali ke menu utama\n')
+                os.system("pause")
+                x=False
+    time.sleep(1.5)
+
+main_menu()
